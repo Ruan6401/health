@@ -3,19 +3,22 @@ package controllers
 import(
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"github.com/Ruan6401/health/api/domain"
+	"github.com/Ruan6401/health/api/services"
 )
 
-type healthController struct{}
+type healthController struct{
+	svc services.HealthService
+}
 
-func NewHealthController() *healthController{
-	return &healthController{}
+func NewHealthController(svc services.HealthService) *healthController{
+	return &healthController{
+		svc: svc,
+	}
 }
 
 func (h *healthController)Handle(c *gin.Context){
-	response := &domain.Response{
-		Resp: "Polo!",
-	}
+	
+	response := h.svc.AnswerMarco()
 
 	c.JSON(http.StatusOK,response)
 }
